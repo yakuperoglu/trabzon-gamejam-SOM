@@ -1,35 +1,33 @@
 using UnityEngine;
 
 /// <summary>
-/// Maske 2 - Placeholder özellikler
+/// Maske 2 - Zehirli Sis Koruması
+/// Aktifken zehirli alanlardan hasar alınmaz
 /// </summary>
 public class Mask2 : MaskBase
 {
-    public override string MaskName => "Maske 2";
+    public override string MaskName => "Gaz Maskesi";
     public override int MaskIndex => 1;
 
-    [Header("Maske 2 Ayarları")]
-    [Tooltip("Bu maskenin özel efekti için placeholder")]
-    public string abilityDescription = "Özel Yetenek 2 - TODO: Implement";
+    // Static - PlayerHealth bu property'yi kontrol eder
+    public static bool IsPoisonImmune { get; private set; }
 
     protected override void OnActivate()
     {
-        // TODO: Maske 2 özel yeteneğini buraya ekle
-        // Örnek: Duvarların arkasını görme, vb.
-        Debug.Log($"[Maske 2] {abilityDescription} - AKTİF");
+        IsPoisonImmune = true;
     }
 
     protected override void OnDeactivate()
     {
-        // TODO: Maske 2 etkilerini kaldır
-        Debug.Log($"[Maske 2] {abilityDescription} - KAPALI");
+        IsPoisonImmune = false;
     }
 
-    void Update()
+    void OnDestroy()
     {
-        if (IsActive)
+        if (IsPoisonImmune)
         {
-            // TODO: Sürekli efektler buraya
+            IsPoisonImmune = false;
         }
     }
 }
+

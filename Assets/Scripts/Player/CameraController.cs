@@ -112,6 +112,9 @@ public class CameraController : MonoBehaviour
 
     void HandleRotation()
     {
+        // Time.deltaTime == 0 olduğunda (pause) atla
+        if (Time.deltaTime <= 0) return;
+
         // Mouse input
         float mouseX = lookInput.x * mouseSensitivity * Time.deltaTime * 60f; // Frame-rate independent
         float mouseY = lookInput.y * mouseSensitivity * Time.deltaTime * 60f;

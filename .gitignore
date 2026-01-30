@@ -96,3 +96,6 @@ Desktop.ini
 # Plastic SCM
 .plastic
 .plastic*
+
+# Large Asset Packs (too big for git)
+/Assets/Dungeon_Environment/

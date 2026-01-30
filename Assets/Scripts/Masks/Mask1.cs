@@ -1,36 +1,50 @@
 using UnityEngine;
+using System;
 
 /// <summary>
-/// Maske 1 - Placeholder özellikler
+/// Maske 1 - Gizli Nesneleri Görme Yeteneği
+/// Aktifken normalde görünmez nesneleri gösterir
 /// </summary>
 public class Mask1 : MaskBase
 {
-    public override string MaskName => "Maske 1";
+    public override string MaskName => "Gizli Görüş Maskesi";
     public override int MaskIndex => 0;
 
-    [Header("Maske 1 Ayarları")]
-    [Tooltip("Bu maskenin özel efekti için placeholder")]
-    public string abilityDescription = "Özel Yetenek 1 - TODO: Implement";
+    // Static event - tüm RevealableObject'ler bunu dinler
+    public static event Action<bool> OnRevealStateChanged;
+    public static bool IsRevealActive { get; private set; }
+
+    [Header("Görsel Efektler")]
+    [Tooltip("Maske aktifken ekrana hafif renk efekti")]
+    public bool useScreenTint = true;
+    
+    [Tooltip("Ekran renk efekti")]
+    public Color screenTintColor = new Color(0.3f, 0.5f, 1f, 0.1f);
 
     protected override void OnActivate()
     {
-        // TODO: Maske 1 özel yeteneğini buraya ekle
-        // Örnek: Gece görüşü, hız artışı, vb.
-        Debug.Log($"[Maske 1] {abilityDescription} - AKTİF");
+        IsRevealActive = true;
+        
+        // Tüm gizli objelere haber ver
+        OnRevealStateChanged?.Invoke(true);
     }
 
     protected override void OnDeactivate()
     {
-        // TODO: Maske 1 etkilerini kaldır
-        Debug.Log($"[Maske 1] {abilityDescription} - KAPALI");
+        IsRevealActive = false;
+        
+        // Tüm gizli objelere haber ver
+        OnRevealStateChanged?.Invoke(false);
     }
 
-    void Update()
+    void OnDestroy()
     {
-        if (IsActive)
+        // Temizlik
+        if (IsRevealActive)
         {
-            // TODO: Sürekli efektler buraya
-            // Örnek: Her frame'de gösterilen görsel efektler
+            IsRevealActive = false;
+            OnRevealStateChanged?.Invoke(false);
         }
     }
 }
+

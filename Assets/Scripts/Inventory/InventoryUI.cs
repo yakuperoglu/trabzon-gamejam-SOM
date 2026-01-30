@@ -1,44 +1,29 @@
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 /// <summary>
-/// Envanter UI - Ekranın alt ortasında 4 slotlu envanter gösterimi
+/// Envanter UI - Image objelerini SetActive ile gösterir
+/// Eşya toplandığında ilgili Image aktif olur
 /// </summary>
 public class InventoryUI : MonoBehaviour
 {
-    [Header("Slot Referansları")]
-    [Tooltip("Slot arka plan Image'ları (4 adet)")]
-    public Image[] slotBackgrounds = new Image[4];
+    [Header("Maske Image Objeleri")]
+    [Tooltip("Mask1 Image objesi - Başta inactive")]
+    public GameObject mask1Image;
     
-    [Tooltip("Slot ikon Image'ları (4 adet)")]
-    public Image[] slotIcons = new Image[4];
+    [Tooltip("Mask2 Image objesi - Başta inactive")]
+    public GameObject mask2Image;
     
-    [Tooltip("Slot seçim çerçeveleri (3 adet - maskeler için)")]
-    public Image[] slotSelectionFrames = new Image[3];
+    [Tooltip("Mask3 Image objesi - Başta inactive")]
+    public GameObject mask3Image;
     
-    [Tooltip("Slot numaraları (opsiyonel - TextMeshPro)")]
-    public TextMeshProUGUI[] slotNumbers = new TextMeshProUGUI[4];
+    [Header("Anahtar Image Objesi")]
+    [Tooltip("Key Image objesi - Başta inactive")]
+    public GameObject keyImage;
 
-    [Header("Renkler")]
-    [Tooltip("Boş slot rengi")]
-    public Color emptySlotColor = new Color(0.3f, 0.3f, 0.3f, 0.5f);
-    
-    [Tooltip("Dolu slot rengi")]
-    public Color filledSlotColor = new Color(1f, 1f, 1f, 1f);
-    
-    [Tooltip("Aktif maske çerçeve rengi")]
-    public Color activeFrameColor = new Color(1f, 0.8f, 0f, 1f); // Altın sarısı
-    
-    [Tooltip("Pasif çerçeve rengi")]
-    public Color inactiveFrameColor = new Color(0.5f, 0.5f, 0.5f, 0f); // Şeffaf
-
-    [Header("Opsiyonel - Sprite'lar")]
-    [Tooltip("Maske ikonları (3 adet)")]
-    public Sprite[] maskIcons = new Sprite[3];
-    
-    [Tooltip("Anahtar ikonu")]
-    public Sprite keyIcon;
+    [Header("Seçim Çerçeveleri (Opsiyonel)")]
+    [Tooltip("Aktif maske için çerçeve objeleri")]
+    public GameObject[] selectionFrames = new GameObject[3];
 
     // Private
     private InventorySystem inventory;
@@ -64,7 +49,7 @@ public class InventoryUI : MonoBehaviour
         inventory.OnMaskActivated.AddListener(OnMaskActivated);
         inventory.OnMaskDeactivated.AddListener(OnMaskDeactivated);
 
-        // İlk UI güncellemesi
+        // İlk durumu ayarla (mevcut envantere göre)
         RefreshUI();
     }
 
@@ -72,80 +57,65 @@ public class InventoryUI : MonoBehaviour
     {
         if (inventory == null) return;
 
-        // Maske slotlarını güncelle (0, 1, 2)
-        for (int i = 0; i < 3; i++)
-        {
-            UpdateSlot(i, inventory.hasMask[i]);
-            UpdateSelectionFrame(i, inventory.activeMaskIndex == i);
-        }
-
-        // Anahtar slotunu güncelle (3)
-        UpdateSlot(3, inventory.hasKey);
-    }
-
-    void UpdateSlot(int slotIndex, bool hasItem)
-    {
-        if (slotIndex < 0 || slotIndex >= 4) return;
-
-        // Arka plan rengi
-        if (slotBackgrounds != null && slotBackgrounds.Length > slotIndex && slotBackgrounds[slotIndex] != null)
-        {
-            slotBackgrounds[slotIndex].color = hasItem ? filledSlotColor : emptySlotColor;
-        }
-
-        // İkon görünürlüğü ve sprite
-        if (slotIcons != null && slotIcons.Length > slotIndex && slotIcons[slotIndex] != null)
-        {
-            slotIcons[slotIndex].enabled = hasItem;
-            
-            // Sprite ata
-            if (hasItem)
-            {
-                if (slotIndex < 3 && maskIcons != null && maskIcons.Length > slotIndex && maskIcons[slotIndex] != null)
-                {
-                    slotIcons[slotIndex].sprite = maskIcons[slotIndex];
-                }
-                else if (slotIndex == 3 && keyIcon != null)
-                {
-                    slotIcons[slotIndex].sprite = keyIcon;
-                }
-            }
-        }
-    }
-
-    void UpdateSelectionFrame(int maskIndex, bool isActive)
-    {
-        if (maskIndex < 0 || maskIndex >= 3) return;
+        // Maske görünürlüklerini güncelle
+        if (mask1Image != null) mask1Image.SetActive(inventory.hasMask[0]);
+        if (mask2Image != null) mask2Image.SetActive(inventory.hasMask[1]);
+        if (mask3Image != null) mask3Image.SetActive(inventory.hasMask[2]);
         
-        if (slotSelectionFrames != null && slotSelectionFrames.Length > maskIndex && slotSelectionFrames[maskIndex] != null)
+        // Anahtar görünürlüğü
+        if (keyImage != null) keyImage.SetActive(inventory.hasKey);
+
+        // Seçim çerçevelerini güncelle
+        UpdateSelectionFrames();
+    }
+
+    void UpdateSelectionFrames()
+    {
+        if (inventory == null) return;
+
+        for (int i = 0; i < selectionFrames.Length; i++)
         {
-            slotSelectionFrames[maskIndex].color = isActive ? activeFrameColor : inactiveFrameColor;
+            if (selectionFrames[i] != null)
+            {
+                selectionFrames[i].SetActive(inventory.activeMaskIndex == i);
+            }
         }
     }
 
     // Event Handlers
     void OnMaskCollected(int maskIndex)
     {
-        UpdateSlot(maskIndex, true);
+        switch (maskIndex)
+        {
+            case 0:
+                if (mask1Image != null) mask1Image.SetActive(true);
+                Debug.Log("UI: Mask1 gösteriliyor");
+                break;
+            case 1:
+                if (mask2Image != null) mask2Image.SetActive(true);
+                Debug.Log("UI: Mask2 gösteriliyor");
+                break;
+            case 2:
+                if (mask3Image != null) mask3Image.SetActive(true);
+                Debug.Log("UI: Mask3 gösteriliyor");
+                break;
+        }
     }
 
     void OnKeyCollected()
     {
-        UpdateSlot(3, true);
+        if (keyImage != null) keyImage.SetActive(true);
+        Debug.Log("UI: Key gösteriliyor");
     }
 
     void OnMaskActivated(int maskIndex)
     {
-        // Tüm çerçeveleri güncelle
-        for (int i = 0; i < 3; i++)
-        {
-            UpdateSelectionFrame(i, i == maskIndex);
-        }
+        UpdateSelectionFrames();
     }
 
     void OnMaskDeactivated(int maskIndex)
     {
-        UpdateSelectionFrame(maskIndex, false);
+        UpdateSelectionFrames();
     }
 
     void OnDestroy()
@@ -159,3 +129,4 @@ public class InventoryUI : MonoBehaviour
         }
     }
 }
+

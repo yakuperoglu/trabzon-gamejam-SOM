@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
-/// Toplanabilir Eşya - Maskeler ve Anahtar için
+/// Toplanabilir Eşya - Oyuncu objeye BAKTIĞINDA toplanabilir
 /// </summary>
 public class CollectibleItem : MonoBehaviour
 {
@@ -18,11 +18,8 @@ public class CollectibleItem : MonoBehaviour
     [Tooltip("Bu eşyanın tipi")]
     public ItemType itemType = ItemType.Mask1;
     
-    [Tooltip("Toplama mesafesi")]
-    public float collectRange = 2f;
-    
-    [Tooltip("Toplama için E tuşuna basılı tutma süresi (saniye)")]
-    public float holdDuration = 0.5f;
+    [Tooltip("Bakış mesafesi - bu mesafeden uzakta bakınca algılanmaz")]
+    public float lookRange = 5f;
 
     [Header("Görsel Efektler")]
     [Tooltip("Dönen animasyon hızı")]
@@ -35,34 +32,21 @@ public class CollectibleItem : MonoBehaviour
     public float bobSpeed = 2f;
 
     [Header("UI İpucu")]
-    [Tooltip("Yakındayken gösterilecek ipucu metni (opsiyonel)")]
+    [Tooltip("Objeye bakınca gösterilecek UI (opsiyonel)")]
     public GameObject pickupPromptUI;
 
     // Private
-    private Transform playerTransform;
-    private PlayerInput playerInput;
-    private InputAction interactAction;
-    private bool playerInRange = false;
-    private float holdTimer = 0f;
+    private Camera playerCamera;
+    private bool isLookingAtItem = false;
     private Vector3 startPosition;
 
     void Start()
     {
         startPosition = transform.position;
         
-        // Player'ı bul
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
-        {
-            playerTransform = player.transform;
-            playerInput = player.GetComponent<PlayerInput>();
-            
-            if (playerInput != null && playerInput.actions != null)
-            {
-                interactAction = playerInput.actions["Interact"];
-            }
-        }
-
+        // Kamerayı bul
+        playerCamera = Camera.main;
+        
         // UI'ı başlangıçta gizle
         if (pickupPromptUI != null)
         {
@@ -72,14 +56,14 @@ public class CollectibleItem : MonoBehaviour
 
     void Update()
     {
-        // Görsel efektler - dönen ve yukarı-aşağı hareket
+        // Görsel efektler
         AnimateItem();
         
-        // Mesafe kontrolü
-        CheckPlayerDistance();
+        // Bakış kontrolü (Raycast)
+        CheckPlayerLooking();
         
         // Toplama kontrolü
-        if (playerInRange)
+        if (isLookingAtItem)
         {
             HandlePickup();
         }
@@ -95,116 +79,96 @@ public class CollectibleItem : MonoBehaviour
         transform.position = new Vector3(transform.position.x, newY, transform.position.z);
     }
 
-    void CheckPlayerDistance()
+    void CheckPlayerLooking()
     {
-        if (playerTransform == null) return;
-
-        float distance = Vector3.Distance(transform.position, playerTransform.position);
-        bool wasInRange = playerInRange;
-        playerInRange = distance <= collectRange;
-
-        // UI ipucu göster/gizle
-        if (pickupPromptUI != null)
+        if (playerCamera == null)
         {
-            pickupPromptUI.SetActive(playerInRange);
+            playerCamera = Camera.main;
+            if (playerCamera == null) return;
         }
 
-        // Menzilden çıktıysa timer'ı sıfırla
-        if (wasInRange && !playerInRange)
+        isLookingAtItem = false;
+
+        // Kameradan ileriye doğru ray at
+        Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
+        RaycastHit hit;
+
+        // Raycast yap
+        if (Physics.Raycast(ray, out hit, lookRange))
         {
-            holdTimer = 0f;
+            // Bu objeye mi bakıyor?
+            if (hit.collider.gameObject == gameObject || hit.collider.transform.IsChildOf(transform))
+            {
+                isLookingAtItem = true;
+            }
+        }
+
+        // UI göster/gizle
+        if (pickupPromptUI != null)
+        {
+            pickupPromptUI.SetActive(isLookingAtItem);
         }
     }
 
     void HandlePickup()
     {
-        bool isHolding = false;
+        // E tuşu kontrolü - Input System
+        bool ePressed = false;
 
-        // Input System ile kontrol
-        if (interactAction != null)
+        if (Keyboard.current != null)
         {
-            isHolding = interactAction.IsPressed();
-        }
-        // Fallback - Keyboard
-        else if (Keyboard.current != null)
-        {
-            isHolding = Keyboard.current.eKey.isPressed;
+            ePressed = Keyboard.current.eKey.wasPressedThisFrame;
         }
 
-        if (isHolding)
+        if (ePressed)
         {
-            holdTimer += Time.deltaTime;
-            
-            if (holdTimer >= holdDuration)
-            {
-                Collect();
-            }
-        }
-        else
-        {
-            holdTimer = 0f;
+            Collect();
         }
     }
 
     void Collect()
     {
-        if (InventorySystem.Instance == null)
+        // InventorySystem'i bul
+        InventorySystem inventory = InventorySystem.Instance;
+        
+        if (inventory == null)
         {
-            Debug.LogError("CollectibleItem: InventorySystem bulunamadı!");
-            return;
+            inventory = FindAnyObjectByType<InventorySystem>();
         }
+        
+        if (inventory == null) return;
 
         switch (itemType)
         {
             case ItemType.Mask1:
-                InventorySystem.Instance.CollectMask(0);
+                inventory.CollectMask(0);
                 break;
             case ItemType.Mask2:
-                InventorySystem.Instance.CollectMask(1);
+                inventory.CollectMask(1);
                 break;
             case ItemType.Mask3:
-                InventorySystem.Instance.CollectMask(2);
+                inventory.CollectMask(2);
                 break;
             case ItemType.Key:
-                InventorySystem.Instance.CollectKey();
+                inventory.CollectKey();
                 break;
         }
-
+        
+        // UI'ı gizle
+        if (pickupPromptUI != null)
+        {
+            pickupPromptUI.SetActive(false);
+        }
+        
         // Objeyi yok et
-        Debug.Log($"{itemType} toplandı ve envantere eklendi!");
         Destroy(gameObject);
-    }
-
-    // Trigger ile de çalışabilir (alternatif)
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            playerInRange = true;
-            if (pickupPromptUI != null)
-            {
-                pickupPromptUI.SetActive(true);
-            }
-        }
-    }
-
-    void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            playerInRange = false;
-            holdTimer = 0f;
-            if (pickupPromptUI != null)
-            {
-                pickupPromptUI.SetActive(false);
-            }
-        }
     }
 
     // Editor'da menzili göster
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, collectRange);
+        Gizmos.DrawWireSphere(transform.position, lookRange);
     }
 }
+

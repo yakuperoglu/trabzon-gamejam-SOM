@@ -113,7 +113,6 @@ public class InventorySystem : MonoBehaviour
         if (!hasMask[maskIndex])
         {
             hasMask[maskIndex] = true;
-            Debug.Log($"Maske {maskIndex + 1} toplandı!");
             OnMaskCollected?.Invoke(maskIndex);
         }
     }
@@ -126,7 +125,6 @@ public class InventorySystem : MonoBehaviour
         if (!hasKey)
         {
             hasKey = true;
-            Debug.Log("Anahtar toplandı!");
             OnKeyCollected?.Invoke();
         }
     }
@@ -139,11 +137,7 @@ public class InventorySystem : MonoBehaviour
         if (maskIndex < 0 || maskIndex >= 3) return;
         
         // Maske alınmış mı kontrol et
-        if (!hasMask[maskIndex])
-        {
-            Debug.Log($"Maske {maskIndex + 1} henüz alınmadı!");
-            return;
-        }
+        if (!hasMask[maskIndex]) return;
 
         // Zaten bu maske aktifse, deaktif et
         if (activeMaskIndex == maskIndex)
@@ -160,7 +154,6 @@ public class InventorySystem : MonoBehaviour
 
         // Yeni maskeyi aktif et
         activeMaskIndex = maskIndex;
-        Debug.Log($"Maske {maskIndex + 1} aktif!");
         
         // Maske script varsa aktifleştir
         if (masks != null && masks.Length > maskIndex && masks[maskIndex] != null)
@@ -188,8 +181,6 @@ public class InventorySystem : MonoBehaviour
         {
             activeMaskIndex = -1;
         }
-
-        Debug.Log($"Maske {maskIndex + 1} deaktif!");
         OnMaskDeactivated?.Invoke(maskIndex);
     }
 

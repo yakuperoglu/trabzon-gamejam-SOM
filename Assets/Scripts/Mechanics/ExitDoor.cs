@@ -115,6 +115,18 @@ public class ExitDoor : MonoBehaviour
             return;
         }
 
+        // Anahtarı kullan (envanterde kalmamalı)
+        InventorySystem.Instance.UseKey();
+
+        // Envanter UI'ını gizle
+        if (InventoryUI.Instance != null)
+        {
+            InventoryUI.Instance.Hide();
+        }
+
+        // Oyunu durdur ama ses devam etsin (TimeScale = 0)
+        Time.timeScale = 0f;
+
         // UI'ları kapat
         if (interactPromptUI != null) interactPromptUI.SetActive(false);
         if (keyRequiredUI != null) keyRequiredUI.SetActive(false);

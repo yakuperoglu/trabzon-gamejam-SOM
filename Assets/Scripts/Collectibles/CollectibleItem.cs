@@ -35,6 +35,13 @@ public class CollectibleItem : MonoBehaviour
     [Tooltip("Objeye bakınca gösterilecek UI (opsiyonel)")]
     public GameObject pickupPromptUI;
 
+    [Header("Ses")]
+    [Tooltip("Toplanınca çalacak ses")]
+    public AudioClip pickupSound;
+    
+    [Range(0f, 1f)]
+    public float pickupVolume = 1f;
+
     // Private
     private Camera playerCamera;
     private bool isLookingAtItem = false;
@@ -161,6 +168,26 @@ public class CollectibleItem : MonoBehaviour
 
     void Collect()
     {
+        Debug.Log($"CollectibleItem: {gameObject.name} toplanıyor - pickupSound: {pickupSound} - AudioManager: {AudioManager.Instance}");
+        
+        // Sesi AudioManager ile çal
+        if (AudioManager.Instance != null)
+        {
+            if (pickupSound != null)
+            {
+                AudioManager.Instance.PlaySound(pickupSound, pickupVolume, false);
+                Debug.Log("SES ÇALDI!");
+            }
+            else
+            {
+                Debug.LogWarning("pickupSound NULL!");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("AudioManager NULL!");
+        }
+        
         // InventorySystem'i bul
         InventorySystem inventory = InventorySystem.Instance;
         

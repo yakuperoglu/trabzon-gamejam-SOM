@@ -4,6 +4,7 @@ using System.Collections;
 
 /// <summary>
 /// Loading Ekranı - Ses çalarken bekler, bitince sonraki sahneyi yükler
+/// Time.timeScale = 0 iken de çalışır (WaitForSecondsRealtime kullanır)
 /// </summary>
 public class LoadingScreen : MonoBehaviour
 {
@@ -19,6 +20,10 @@ public class LoadingScreen : MonoBehaviour
     
     [Tooltip("Ses kaynağı (yoksa otomatik oluşturulur)")]
     public AudioSource audioSource;
+
+    [Header("Timing")]
+    [Tooltip("Minimum loading süresi (saniye)")]
+    public float minimumLoadingTime = 2f;
 
     // Private
     private string targetSceneName;
@@ -40,12 +45,24 @@ public class LoadingScreen : MonoBehaviour
         {
             audioSource = gameObject.AddComponent<AudioSource>();
         }
+        audioSource.playOnAwake = false;
+        
+        // Time.timeScale = 0 iken de çalması için
+        audioSource.ignoreListenerPause = true;
 
         // Panel başta gizli
         if (loadingPanel != null)
         {
             loadingPanel.SetActive(false);
         }
+        
+        // Sahne yüklendiğinde callback
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     /// <summary>
@@ -86,61 +103,106 @@ public class LoadingScreen : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        // Time scale normal
-        Time.timeScale = 1f;
+        // NOT: TimeScale ExitDoor tarafından 0 yapılmış olabilir
+        // Biz değiştirmiyoruz - WaitForSecondsRealtime kullanacağız
 
-        // Ses çal ve bitince sahneyi yükle
+        // Ses çal (varsa)
         if (loadingAudio != null && audioSource != null)
         {
             audioSource.clip = loadingAudio;
             audioSource.Play();
-            StartCoroutine(WaitForAudioAndLoad());
+        }
+        
+        StartCoroutine(LoadSceneAsync());
+    }
+
+    IEnumerator LoadSceneAsync()
+    {
+        float startTime = Time.realtimeSinceStartup;
+        
+        // Sahneyi async yükle
+        AsyncOperation asyncLoad;
+        if (targetSceneIndex >= 0)
+        {
+            asyncLoad = SceneManager.LoadSceneAsync(targetSceneIndex);
+        }
+        else if (!string.IsNullOrEmpty(targetSceneName))
+        {
+            asyncLoad = SceneManager.LoadSceneAsync(targetSceneName);
         }
         else
         {
-            // Ses yoksa direkt yükle
-            LoadTargetScene();
+            int currentIndex = SceneManager.GetActiveScene().buildIndex;
+            asyncLoad = SceneManager.LoadSceneAsync(currentIndex + 1);
         }
-    }
 
-    IEnumerator WaitForAudioAndLoad()
-    {
-        // Ses bitene kadar bekle
-        while (audioSource.isPlaying)
+        if (asyncLoad == null)
+        {
+            Debug.LogError("LoadingScreen: Sahne yüklenemedi!");
+            isLoading = false;
+            yield break;
+        }
+
+        // Sahne hazır olsa bile aktivasyon beklemeye al
+        asyncLoad.allowSceneActivation = false;
+
+        // Sahne yüklenirken bekle (progress 0.9'a kadar gider, sonra aktivasyon bekler)
+        while (asyncLoad.progress < 0.9f)
         {
             yield return null;
         }
 
-        // Küçük bir gecikme
-        yield return new WaitForSeconds(0.5f);
+        // Sesin bitmesini bekle (varsa)
+        if (audioSource != null && audioSource.isPlaying)
+        {
+            while (audioSource.isPlaying)
+            {
+                yield return null;
+            }
+        }
 
-        // Sahneyi yükle
-        LoadTargetScene();
+        // Minimum süre geçmesini bekle (realtime - TimeScale'den bağımsız)
+        float elapsed = Time.realtimeSinceStartup - startTime;
+        if (elapsed < minimumLoadingTime)
+        {
+            yield return new WaitForSecondsRealtime(minimumLoadingTime - elapsed);
+        }
+
+        // Ek gecikme - önceki sahnenin görünmemesi için
+        yield return new WaitForSecondsRealtime(0.3f);
+
+        // Sahneyi aktif et - bu noktada panel hala görünür
+        asyncLoad.allowSceneActivation = true;
+        
+        // OnSceneLoaded callback'i çağrılacak
     }
 
-    void LoadTargetScene()
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        if (!isLoading) return;
+        
         isLoading = false;
 
-        // Panel gizle
+        // Panel gizle - yeni sahne tamamen yüklendikten sonra
         if (loadingPanel != null)
         {
             loadingPanel.SetActive(false);
         }
 
-        // Sahneyi yükle
-        if (targetSceneIndex >= 0)
-        {
-            SceneManager.LoadScene(targetSceneIndex);
-        }
-        else if (!string.IsNullOrEmpty(targetSceneName))
-        {
-            SceneManager.LoadScene(targetSceneName);
-        }
+        // Time scale'i geri getir
+        Time.timeScale = 1f;
 
-        // Mouse'u gizle (yeni sahne için)
+        // Mouse'u gizle (gameplay için)
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        
+        // Envanter UI'ını göster ve güncelle
+        if (InventoryUI.Instance != null)
+        {
+            InventoryUI.Instance.Show();
+        }
+        
+        Debug.Log($"LoadingScreen: {scene.name} sahnesi yüklendi");
     }
 
     /// <summary>
@@ -153,6 +215,26 @@ public class LoadingScreen : MonoBehaviour
             audioSource.Stop();
         }
         StopAllCoroutines();
-        LoadTargetScene();
+        
+        // Time scale'i geri getir
+        Time.timeScale = 1f;
+        
+        // Panel gizle
+        if (loadingPanel != null)
+        {
+            loadingPanel.SetActive(false);
+        }
+        
+        isLoading = false;
+        
+        // Direkt sahne yükle
+        if (targetSceneIndex >= 0)
+        {
+            SceneManager.LoadScene(targetSceneIndex);
+        }
+        else if (!string.IsNullOrEmpty(targetSceneName))
+        {
+            SceneManager.LoadScene(targetSceneName);
+        }
     }
 }

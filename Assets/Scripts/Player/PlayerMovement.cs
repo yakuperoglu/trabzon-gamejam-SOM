@@ -26,6 +26,17 @@ public class PlayerMovement : MonoBehaviour
     public UnityEvent<float, float> OnStaminaChanged;
     public UnityEvent<string> OnNotEnoughStamina;
 
+    [Header("Ayak Sesi Ayarları")]
+    [Tooltip("Ayak sesi için AudioClip dizisi - rastgele seçilir")]
+    public AudioClip[] footstepSounds;
+    [Tooltip("Yürürken adım sesi arasındaki süre")]
+    public float walkStepInterval = 0.5f;
+    [Tooltip("Koşarken adım sesi arasındaki süre")]
+    public float sprintStepInterval = 0.3f;
+    [Tooltip("Ayak sesi ses seviyesi (0-1)")]
+    [Range(0f, 1f)]
+    public float footstepVolume = 0.6f;
+
     // Public Properties
     public float CurrentStamina { get; private set; }
     public float MaxStaminaValue => maxStamina;
@@ -46,6 +57,10 @@ public class PlayerMovement : MonoBehaviour
     private InputAction moveAction;
     private InputAction jumpAction;
     private InputAction sprintAction;
+
+    // Ayak sesi için
+    private float footstepTimer;
+    private AudioSource footstepAudioSource;
 
     void Awake()
     {
@@ -78,6 +93,12 @@ public class PlayerMovement : MonoBehaviour
         {
             groundMask = ~0;
         }
+
+        // Ayak sesi için AudioSource oluştur
+        footstepAudioSource = gameObject.AddComponent<AudioSource>();
+        footstepAudioSource.playOnAwake = false;
+        footstepAudioSource.spatialBlend = 0f; // 2D ses (kendin duyarsın)
+        footstepAudioSource.volume = footstepVolume;
     }
 
     void Update()
@@ -85,6 +106,7 @@ public class PlayerMovement : MonoBehaviour
         ReadInput();
         CheckGrounded();
         HandleStaminaRegen();
+        HandleFootsteps();
     }
 
     void FixedUpdate()
@@ -246,5 +268,55 @@ public class PlayerMovement : MonoBehaviour
     {
         CurrentStamina = Mathf.Min(maxStamina, CurrentStamina + amount);
         OnStaminaChanged?.Invoke(CurrentStamina, maxStamina);
+    }
+
+    /// <summary>
+    /// Ayak seslerini yönetir - loop tabanlı sistem
+    /// </summary>
+    void HandleFootsteps()
+    {
+        // Ses clipi yoksa çık
+        if (footstepSounds == null || footstepSounds.Length == 0) return;
+        if (footstepAudioSource == null) return;
+
+        // Yerde mi kontrol - daha toleranslı
+        bool nearGround = IsNearGround();
+        
+        // Hareket ediyor mu kontrol et
+        bool isMoving = moveInput.magnitude > 0.1f && nearGround;
+
+        if (isMoving)
+        {
+            // Pitch'i koşma/yürüme durumuna göre ayarla
+            float targetPitch = IsSprinting ? (walkStepInterval / sprintStepInterval) : 1f;
+            footstepAudioSource.pitch = targetPitch;
+
+            // Ses çalmıyorsa başlat
+            if (!footstepAudioSource.isPlaying)
+            {
+                footstepAudioSource.clip = footstepSounds[0];
+                footstepAudioSource.loop = true;
+                footstepAudioSource.volume = footstepVolume;
+                footstepAudioSource.Play();
+            }
+        }
+        else
+        {
+            // Hareket etmiyorsa sesi durdur
+            if (footstepAudioSource.isPlaying)
+            {
+                footstepAudioSource.Stop();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Yere yakın mı kontrol et - isGrounded'dan daha toleranslı
+    /// </summary>
+    bool IsNearGround()
+    {
+        // Karakterin altına raycast at - daha uzun mesafe ile
+        Vector3 rayOrigin = transform.position + Vector3.up * 0.1f;
+        return Physics.Raycast(rayOrigin, Vector3.down, 1.5f, groundMask, QueryTriggerInteraction.Ignore);
     }
 }

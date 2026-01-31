@@ -21522,6 +21522,7 @@ MonoBehaviour:
   loadingPanel: {fileID: 1024579397}
   loadingAudio: {fileID: 8300000, guid: 7a9175465849b0e4d897286c224010e3, type: 3}
   audioSource: {fileID: 0}
+  minimumLoadingTime: 2
 --- !u!4 &796357849
 Transform:
   m_ObjectHideFlags: 0
@@ -31079,6 +31080,13 @@ MonoBehaviour:
   OnNotEnoughStamina:
     m_PersistentCalls:
       m_Calls: []
+  footstepSounds:
+  - {fileID: 8300000, guid: 92d1da6b4d832ea43aec31a444f06e17, type: 3}
+  - {fileID: 8300000, guid: 92d1da6b4d832ea43aec31a444f06e17, type: 3}
+  - {fileID: 8300000, guid: 92d1da6b4d832ea43aec31a444f06e17, type: 3}
+  walkStepInterval: 0.5
+  sprintStepInterval: 0.3
+  footstepVolume: 0.6
 --- !u!54 &1180531387
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -31834,7 +31842,7 @@ MonoBehaviour:
   openAngle: -90
   openSpeed: 3
   openDirection: 1
-  openSound: {fileID: 0}
+  openSound: {fileID: 8300000, guid: 17e17ae76cabebb428e1cf2cf90c7731, type: 3}
   closeSound: {fileID: 0}
 --- !u!4 &1201757350
 Transform:

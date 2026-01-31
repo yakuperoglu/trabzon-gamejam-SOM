@@ -93,7 +93,7 @@ public class PlayerHealth : MonoBehaviour
         isInPoisonZone = false;
     }
 
-    void Die()
+    public void Die()
     {
         if (isDead) return;
         

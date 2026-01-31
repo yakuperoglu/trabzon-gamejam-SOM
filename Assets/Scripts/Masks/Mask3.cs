@@ -15,15 +15,15 @@ public class Mask3 : MaskBase
     
     [Tooltip("Işık şiddeti")]
     [Range(0.1f, 10f)]
-    public float lightIntensity = 2f;
+    public float lightIntensity = 4f;
     
     [Tooltip("Işık menzili")]
     [Range(1f, 100f)]
-    public float lightRange = 30f;
+    public float lightRange = 60f;
     
     [Tooltip("Spot açısı")]
     [Range(1f, 179f)]
-    public float spotAngle = 45f;
+    public float spotAngle = 60f;
     
     [Tooltip("İç spot açısı (yumuşak kenar için)")]
     [Range(0f, 100f)]

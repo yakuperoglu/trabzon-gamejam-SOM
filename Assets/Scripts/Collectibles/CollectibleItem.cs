@@ -87,6 +87,7 @@ public class CollectibleItem : MonoBehaviour
             if (playerCamera == null) return;
         }
 
+        bool wasLooking = isLookingAtItem;
         isLookingAtItem = false;
 
         // Kameradan ileriye doğru ray at
@@ -106,7 +107,39 @@ public class CollectibleItem : MonoBehaviour
         // UI göster/gizle
         if (pickupPromptUI != null)
         {
-            pickupPromptUI.SetActive(isLookingAtItem);
+            if (isLookingAtItem)
+            {
+                // Bu obje şu an aktif - UI'ı göster ve sahipliği al
+                currentActiveCollectible = this;
+                pickupPromptUI.SetActive(true);
+            }
+            else if (wasLooking && currentActiveCollectible == this)
+            {
+                // Artık bakmıyoruz ve bu obje sahipti - UI'ı kapat
+                currentActiveCollectible = null;
+                pickupPromptUI.SetActive(false);
+            }
+        }
+    }
+
+    // Hangi collectible şu an UI'ı kontrol ediyor
+    private static CollectibleItem currentActiveCollectible;
+
+    void OnDestroy()
+    {
+        if (currentActiveCollectible == this && pickupPromptUI != null)
+        {
+            pickupPromptUI.SetActive(false);
+            currentActiveCollectible = null;
+        }
+    }
+
+    void OnDisable()
+    {
+        if (currentActiveCollectible == this && pickupPromptUI != null)
+        {
+            pickupPromptUI.SetActive(false);
+            currentActiveCollectible = null;
         }
     }
 

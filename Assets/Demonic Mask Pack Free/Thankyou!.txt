@@ -1,0 +1,19 @@
+Thank you for downloading!
+I hope you find these models useful for your projects. If you enjoyed them, feel free to check out my other assets on my profile. Your feedback and ratings are highly appreciated and help me improve my future creations.
+
+Good luck with your project, and have fun creating! 😊
+
+https://www.fab.com/sellers/GalaVerseCreations
+
+This part is for those who want to use it in Unity.
+
+While URP is generally used for mobile games, 
+HDRP is used for games with more powerful computer or graphics. 
+For those who ask how do I know if my project is URP or HDRP, Go to Window -> Package Manager, 
+find the Universal RP package, if it is not downloaded, load the model directly to the stage and load material. 
+If it is installed, close the package manager and go to Window -> Rendering -> Click Render Pipeline Converter. 
+In the window that opens, click on the Rendering Settings and Material Upgrade sections, 
+then click on the Convert assets option below, then click on the Initialize and convert option and wait, 
+when the process is completed, the materials will be loaded into the models.
+
+

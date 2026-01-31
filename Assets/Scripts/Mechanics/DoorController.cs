@@ -58,8 +58,8 @@ public class DoorController : MonoBehaviour
 
     void AnimateDoor()
     {
-        // Smooth geçiş
-        currentYRotation = Mathf.Lerp(currentYRotation, targetYRotation, Time.deltaTime * openSpeed);
+        // Sabit hızda hareket
+        currentYRotation = Mathf.MoveTowards(currentYRotation, targetYRotation, Time.deltaTime * openSpeed * 30f);
         
         // Rotasyonu uygula
         transform.eulerAngles = new Vector3(
@@ -68,11 +68,9 @@ public class DoorController : MonoBehaviour
             transform.eulerAngles.z
         );
 
-        // Hedefe yaklaştıysa dur
-        if (Mathf.Abs(currentYRotation - targetYRotation) < 0.1f)
+        // Hedefe ulaştıysa dur
+        if (Mathf.Approximately(currentYRotation, targetYRotation))
         {
-            currentYRotation = targetYRotation;
-            transform.eulerAngles = new Vector3(transform.eulerAngles.x, currentYRotation, transform.eulerAngles.z);
             isAnimating = false;
         }
     }

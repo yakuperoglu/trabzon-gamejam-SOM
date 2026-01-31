@@ -63,6 +63,7 @@ public class SecretButton : MonoBehaviour
             if (playerCamera == null) return;
         }
 
+        bool wasLooking = isLooking;
         isLooking = false;
 
         Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
@@ -76,11 +77,24 @@ public class SecretButton : MonoBehaviour
             }
         }
 
+        // UI kontrolü - sadece bakılan buton aktif etsin
         if (interactPromptUI != null)
         {
-            interactPromptUI.SetActive(isLooking && !isPressed);
+            if (isLooking && !isPressed)
+            {
+                currentActiveButton = this;
+                interactPromptUI.SetActive(true);
+            }
+            else if (wasLooking && currentActiveButton == this)
+            {
+                currentActiveButton = null;
+                interactPromptUI.SetActive(false);
+            }
         }
     }
+
+    // Hangi buton şu an UI'ı kontrol ediyor
+    private static SecretButton currentActiveButton;
 
     void HandleInteraction()
     {

@@ -44,6 +44,9 @@ public class InventorySystem : MonoBehaviour
             return;
         }
         Instance = this;
+        
+        // Sahneler arası kalıcı ol
+        DontDestroyOnLoad(gameObject);
 
         // Input setup
         playerInput = GetComponent<PlayerInput>();

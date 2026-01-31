@@ -20189,7 +20189,10 @@ MonoBehaviour:
   OnNotEnoughStamina:
     m_PersistentCalls:
       m_Calls: []
-  footstepSounds: []
+  footstepSounds:
+  - {fileID: 8300000, guid: 92d1da6b4d832ea43aec31a444f06e17, type: 3}
+  - {fileID: 8300000, guid: 92d1da6b4d832ea43aec31a444f06e17, type: 3}
+  - {fileID: 8300000, guid: 92d1da6b4d832ea43aec31a444f06e17, type: 3}
   walkStepInterval: 0.5
   sprintStepInterval: 0.3
   footstepVolume: 0.6
@@ -137291,7 +137294,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraController
   target: {fileID: 167508009}
-  offset: {x: 0, y: 0.3, z: 0}
+  offset: {x: 0, y: 0.8, z: 0}
   mouseSensitivity: 2
   upperLookLimit: 85
   lowerLookLimit: 85
@@ -137409,7 +137412,7 @@ Transform:
   m_GameObject: {fileID: 1073245233}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 89, y: 0.87, z: 92}
+  m_LocalPosition: {x: 61.077, y: 2.006, z: 59.154}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -231247,12 +231250,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e78be5a4a4ec23641b62d1a4eb2f2045, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PauseMenu
-  pausePanel: {fileID: 0}
-  sensitivitySlider: {fileID: 0}
-  volumeSlider: {fileID: 0}
+  pausePanel: {fileID: 1982826321}
+  sensitivitySlider: {fileID: 1576821511}
+  volumeSlider: {fileID: 1400057378}
   sensitivityValueText: {fileID: 0}
   volumeValueText: {fileID: 0}
-  quitButton: {fileID: 0}
+  quitButton: {fileID: 1457452854}
 --- !u!4 &1770443767
 Transform:
   m_ObjectHideFlags: 0

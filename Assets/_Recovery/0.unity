@@ -4406,7 +4406,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24fee6bc01d1f98499b23542facdd8d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryUI
-  inventoryPanel: {fileID: 0}
   mask1Image: {fileID: 1796280366}
   mask2Image: {fileID: 1640838316}
   mask3Image: {fileID: 1926901191}
@@ -7554,7 +7553,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 19a81b7250a00db4288fb09e77ffd20d, type: 3}
+  m_Texture: {fileID: 0}
   m_UVRect:
     serializedVersion: 2
     x: 0

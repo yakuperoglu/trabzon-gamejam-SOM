@@ -133,6 +133,26 @@ public class InventorySystem : MonoBehaviour
     }
 
     /// <summary>
+    /// Anahtarı kullan (kapıda harcandığında)
+    /// </summary>
+    public void UseKey()
+    {
+        hasKey = false;
+    }
+
+    /// <summary>
+    /// Yeni seviye için envanter hazırla
+    /// Maskeler korunur, anahtar zaten kullanılmış olmalı
+    /// </summary>
+    public void PrepareForNewLevel()
+    {
+        // Maskeler korunur (hasMask[] değişmez)
+        // Aktif maske korunur
+        // Anahtar zaten UseKey() ile kullanılmış olmalı
+        hasKey = false; // Güvenlik için
+    }
+
+    /// <summary>
     /// Maskeyi aktifleştir (sürekli aktif kalır)
     /// </summary>
     public void ActivateMask(int maskIndex)

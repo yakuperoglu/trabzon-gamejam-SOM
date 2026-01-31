@@ -127,18 +127,29 @@ public class InventoryUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Envanter UI'ını gizle (loading sırasında)
+    /// Envanter UI'ını gizle (loading, death, pause sırasında)
     /// </summary>
     public void Hide()
     {
+        Debug.Log("InventoryUI: Hide çağrıldı");
+        
         if (inventoryPanel != null)
         {
             inventoryPanel.SetActive(false);
         }
-        else
+        
+        // Tüm maske image'larını gizle
+        if (mask1Image != null) mask1Image.SetActive(false);
+        if (mask2Image != null) mask2Image.SetActive(false);
+        if (mask3Image != null) mask3Image.SetActive(false);
+        
+        // Key image'ını gizle
+        if (keyImage != null) keyImage.SetActive(false);
+        
+        // Selection frame'leri gizle
+        foreach (var frame in selectionFrames)
         {
-            // Panel yoksa direkt objeyi gizle
-            gameObject.SetActive(false);
+            if (frame != null) frame.SetActive(false);
         }
     }
 
@@ -147,17 +158,21 @@ public class InventoryUI : MonoBehaviour
     /// </summary>
     public void Show()
     {
+        Debug.Log("InventoryUI: Show çağrıldı");
+        
         if (inventoryPanel != null)
         {
             inventoryPanel.SetActive(true);
         }
-        else
-        {
-            gameObject.SetActive(true);
-        }
         
         // Inventory referansını yeniden al (yeni sahnedeki için)
         inventory = InventorySystem.Instance;
+        if (inventory == null)
+        {
+            inventory = FindAnyObjectByType<InventorySystem>();
+        }
+        
+        // UI'ı mevcut envanter durumuna göre güncelle
         RefreshUI();
     }
 

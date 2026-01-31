@@ -93,6 +93,12 @@ public class LoadingScreen : MonoBehaviour
     {
         isLoading = true;
 
+        // Envanter UI'ını HEMEN gizle (ilk iş)
+        if (InventoryUI.Instance != null)
+        {
+            InventoryUI.Instance.Hide();
+        }
+
         // Panel göster
         if (loadingPanel != null)
         {

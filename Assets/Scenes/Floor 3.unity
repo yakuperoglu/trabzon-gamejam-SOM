@@ -20337,6 +20337,10 @@ MonoBehaviour:
   OnNotEnoughStamina:
     m_PersistentCalls:
       m_Calls: []
+  footstepSounds: []
+  walkStepInterval: 0.5
+  sprintStepInterval: 0.3
+  footstepVolume: 0.6
 --- !u!114 &167508008
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20368,7 +20372,7 @@ Transform:
   m_GameObject: {fileID: 167508006}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 61.127, y: 1.62, z: -22.17}
+  m_LocalPosition: {x: 60.927, y: 1.394, z: 59.229}
   m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -117,6 +117,12 @@ public class PauseMenu : MonoBehaviour
             pausePanel.SetActive(true);
         }
 
+        // Envanter UI'ını gizle
+        if (InventoryUI.Instance != null)
+        {
+            InventoryUI.Instance.Hide();
+        }
+
         // Slider değerlerini güncelle
         if (settings != null)
         {
@@ -137,6 +143,12 @@ public class PauseMenu : MonoBehaviour
         if (pausePanel != null)
         {
             pausePanel.SetActive(false);
+        }
+
+        // Envanter UI'ını göster
+        if (InventoryUI.Instance != null)
+        {
+            InventoryUI.Instance.Show();
         }
 
         // Mouse'u gizle

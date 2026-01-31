@@ -59,6 +59,12 @@ public class DeathScreen : MonoBehaviour
         {
             deathPanel.SetActive(true);
         }
+
+        // Envanter UI'ını gizle
+        if (InventoryUI.Instance != null)
+        {
+            InventoryUI.Instance.Hide();
+        }
     }
 
     public void Retry()

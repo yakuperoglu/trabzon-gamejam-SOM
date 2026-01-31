@@ -29,6 +29,7 @@ public class ExitDoor : MonoBehaviour
     private Camera playerCamera;
     private bool isLooking = false;
     private static ExitDoor currentActiveExit;
+    private bool sceneTransitionStarted = false;
 
     void Start()
     {
@@ -40,6 +41,9 @@ public class ExitDoor : MonoBehaviour
 
     void Update()
     {
+        // Scene geçişi başladıysa hiçbir şey yapma
+        if (sceneTransitionStarted) return;
+
         CheckPlayerLooking();
         
         if (isLooking)
@@ -115,6 +119,14 @@ public class ExitDoor : MonoBehaviour
             return;
         }
 
+        // Scene geçişi başladı - artık Update kontrol yapmasın
+        sceneTransitionStarted = true;
+        isLooking = false;
+
+        // UI'ları HEMEN kapat (anahtar kullanılmadan önce)
+        if (interactPromptUI != null) interactPromptUI.SetActive(false);
+        if (keyRequiredUI != null) keyRequiredUI.SetActive(false);
+
         // Anahtarı kullan (envanterde kalmamalı)
         InventorySystem.Instance.UseKey();
 
@@ -126,10 +138,6 @@ public class ExitDoor : MonoBehaviour
 
         // Oyunu durdur ama ses devam etsin (TimeScale = 0)
         Time.timeScale = 0f;
-
-        // UI'ları kapat
-        if (interactPromptUI != null) interactPromptUI.SetActive(false);
-        if (keyRequiredUI != null) keyRequiredUI.SetActive(false);
 
         // Sahneyi yükle
         LoadNextScene();

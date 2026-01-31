@@ -8,44 +8,23 @@ using UnityEngine.Events;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Hareket Ayarları")]
-    [Tooltip("Yürüme hızı")]
     public float walkSpeed = 5f;
-    
-    [Tooltip("Koşma hızı")]
     public float sprintSpeed = 8f;
-    
-    [Tooltip("Zıplama kuvveti")]
     public float jumpForce = 7f;
 
     [Header("Stamina Ayarları")]
-    [Tooltip("Maksimum stamina")]
     public float maxStamina = 100f;
-    
-    [Tooltip("Koşarken saniyede harcanan stamina")]
     public float sprintStaminaCost = 15f;
-    
-    [Tooltip("Zıplarken harcanan stamina")]
     public float jumpStaminaCost = 20f;
-    
-    [Tooltip("Saniyede yenilenen stamina")]
     public float staminaRegenRate = 10f;
-    
-    [Tooltip("Stamina yenilenmesi için bekleme süresi (saniye)")]
     public float staminaRegenDelay = 1f;
 
     [Header("Yer Kontrolü")]
-    [Tooltip("Zemin kontrol noktası")]
-    public Transform groundCheck;
-    
-    [Tooltip("Zemin yarıçapı")]
-    public float groundDistance = 0.4f;
-    
-    [Tooltip("Zemin layer'ı")]
     public LayerMask groundMask;
 
     [Header("Events")]
-    public UnityEvent<float, float> OnStaminaChanged; // current, max
-    public UnityEvent<string> OnNotEnoughStamina; // bildirim mesajı
+    public UnityEvent<float, float> OnStaminaChanged;
+    public UnityEvent<string> OnNotEnoughStamina;
 
     // Public Properties
     public float CurrentStamina { get; private set; }
@@ -53,16 +32,16 @@ public class PlayerMovement : MonoBehaviour
     public bool IsSprinting { get; private set; }
     public bool IsGrounded => isGrounded;
 
-    // Private değişkenler
+    // Private
     private Rigidbody rb;
     private Vector2 moveInput;
     private bool isGrounded;
     private bool jumpRequested;
     private bool sprintHeld;
     private float lastStaminaUseTime;
-    private bool wasSprintBlocked; // Koşma engellendiğinde tekrar bildirim göstermemek için
+    private bool wasSprintBlocked;
+    private float lastJumpTime;
 
-    // Input Actions
     private PlayerInput playerInput;
     private InputAction moveAction;
     private InputAction jumpAction;
@@ -92,18 +71,8 @@ public class PlayerMovement : MonoBehaviour
         rb.freezeRotation = true;
         rb.interpolation = RigidbodyInterpolation.Interpolate;
         rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
-
-        // Stamina başlat
+        
         CurrentStamina = maxStamina;
-
-        // Ground Check oluştur
-        if (groundCheck == null)
-        {
-            GameObject groundCheckObj = new GameObject("GroundCheck");
-            groundCheckObj.transform.parent = transform;
-            groundCheckObj.transform.localPosition = new Vector3(0, -0.9f, 0);
-            groundCheck = groundCheckObj.transform;
-        }
         
         if (groundMask == 0)
         {
@@ -156,36 +125,53 @@ public class PlayerMovement : MonoBehaviour
 
     void TryJump()
     {
-        // Yeterli stamina var mı kontrol et
         if (CurrentStamina >= jumpStaminaCost)
         {
             jumpRequested = true;
         }
         else
         {
-            // Yeterli stamina yok - bildirim gönder
             OnNotEnoughStamina?.Invoke("Zıplamak için yeterli enerji yok!");
-            jumpRequested = false; // Buffer'a ekleme
+            jumpRequested = false;
         }
     }
 
     void CheckGrounded()
     {
-        if (groundCheck != null)
+        // Zıplama cooldown
+        if (Time.time - lastJumpTime < 0.3f)
         {
-            isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask, QueryTriggerInteraction.Ignore);
+            isGrounded = false;
+            return;
         }
-        else
+        
+        // Yukarı hareket ediyorsak yerde değiliz
+        if (rb != null && rb.linearVelocity.y > 0.1f)
         {
-            isGrounded = Physics.Raycast(transform.position, Vector3.down, 1.1f, groundMask);
+            isGrounded = false;
+            return;
         }
+        
+        // Raycast ile zemin kontrolü
+        Vector3 rayOrigin = transform.position + Vector3.up * 0.1f;
+        RaycastHit hit;
+        
+        if (Physics.Raycast(rayOrigin, Vector3.down, out hit, 1.2f, groundMask, QueryTriggerInteraction.Ignore))
+        {
+            if (hit.collider.gameObject != gameObject && !hit.collider.transform.IsChildOf(transform))
+            {
+                isGrounded = true;
+                return;
+            }
+        }
+        
+        isGrounded = false;
     }
 
     void HandleMovement()
     {
         if (rb == null) return;
 
-        // Hareket yönünü hesapla
         Vector3 moveDirection = transform.right * moveInput.x + transform.forward * moveInput.y;
         
         if (moveDirection.magnitude > 1f)
@@ -193,11 +179,9 @@ public class PlayerMovement : MonoBehaviour
             moveDirection.Normalize();
         }
 
-        // Sprint kontrolü - stamina > 0 ise koşabilir (sonuna kadar kullanabilir)
         bool wantsToSprint = sprintHeld && moveInput.y > 0 && moveDirection.magnitude > 0.1f;
         bool canSprint = wantsToSprint && CurrentStamina > 0;
         
-        // Koşmak istiyor ama stamina yoksa bildirim göster (sadece bir kez)
         if (wantsToSprint && CurrentStamina <= 0)
         {
             if (!wasSprintBlocked)
@@ -213,16 +197,13 @@ public class PlayerMovement : MonoBehaviour
         
         IsSprinting = canSprint;
 
-        // Koşarken stamina harca
         if (IsSprinting)
         {
             UseStamina(sprintStaminaCost * Time.fixedDeltaTime);
         }
 
-        // Hız hesapla
         float currentSpeed = IsSprinting ? sprintSpeed : walkSpeed;
 
-        // Velocity uygula
         Vector3 targetVelocity = moveDirection * currentSpeed;
         targetVelocity.y = rb.linearVelocity.y;
         rb.linearVelocity = targetVelocity;
@@ -232,16 +213,15 @@ public class PlayerMovement : MonoBehaviour
     {
         if (rb == null) return;
 
-        // Zıpla - yeterli stamina ve yerdeyse
         if (jumpRequested && isGrounded && CurrentStamina >= jumpStaminaCost)
         {
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce, rb.linearVelocity.z);
             UseStamina(jumpStaminaCost);
             jumpRequested = false;
+            lastJumpTime = Time.time;
         }
         else if (jumpRequested)
         {
-            // Yerde değilse veya stamina yetersizse - hemen sıfırla (bekleme yok)
             jumpRequested = false;
         }
     }
@@ -255,7 +235,6 @@ public class PlayerMovement : MonoBehaviour
 
     void HandleStaminaRegen()
     {
-        // Stamina kullanımından sonra bekleme süresi geçtiyse yenile
         if (Time.time - lastStaminaUseTime >= staminaRegenDelay && CurrentStamina < maxStamina)
         {
             CurrentStamina = Mathf.Min(maxStamina, CurrentStamina + staminaRegenRate * Time.deltaTime);
@@ -263,19 +242,9 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    // Dışarıdan stamina eklemek için (power-up vb.)
     public void AddStamina(float amount)
     {
         CurrentStamina = Mathf.Min(maxStamina, CurrentStamina + amount);
         OnStaminaChanged?.Invoke(CurrentStamina, maxStamina);
-    }
-
-    void OnDrawGizmosSelected()
-    {
-        if (groundCheck != null)
-        {
-            Gizmos.color = isGrounded ? Color.green : Color.red;
-            Gizmos.DrawWireSphere(groundCheck.position, groundDistance);
-        }
     }
 }

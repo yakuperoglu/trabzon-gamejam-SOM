@@ -112,9 +112,18 @@ public class CameraController : MonoBehaviour
 
     void HandleRotation()
     {
-        // Mouse input
-        float mouseX = lookInput.x * mouseSensitivity * Time.deltaTime * 60f; // Frame-rate independent
-        float mouseY = lookInput.y * mouseSensitivity * Time.deltaTime * 60f;
+        // Time.deltaTime == 0 olduğunda (pause) atla
+        if (Time.deltaTime <= 0) return;
+
+        // Aşırı büyük değerleri filtrele (lag spike protection)
+        Vector2 clampedInput = lookInput;
+        float maxDelta = 100f; // Makul maksimum değer
+        clampedInput.x = Mathf.Clamp(clampedInput.x, -maxDelta, maxDelta);
+        clampedInput.y = Mathf.Clamp(clampedInput.y, -maxDelta, maxDelta);
+
+        // Mouse input - delta zaten frame-independent, Time.deltaTime ile çarpmıyoruz
+        float mouseX = clampedInput.x * mouseSensitivity * 0.1f;
+        float mouseY = clampedInput.y * mouseSensitivity * 0.1f;
 
         // Hedef rotasyonları güncelle
         yRotation += mouseX;

@@ -203,4 +203,18 @@ public class InventorySystem : MonoBehaviour
     {
         return activeMaskIndex == index && hasMask[index];
     }
+
+    /// <summary>
+    /// Settings menüsünden oyundan çıkış
+    /// </summary>
+    public void ExitForSettings()
+    {
+        Debug.Log("Oyundan çıkılıyor...");
+        
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #else
+            Application.Quit();
+        #endif
+    }
 }

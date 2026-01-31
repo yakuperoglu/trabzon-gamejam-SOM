@@ -7794,8 +7794,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1190037161}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 82.572, y: 1.11, z: 82.018}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 83.615, y: 1.1560001, z: 82.018}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7814,7 +7814,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b5f46badccfd7448b76266e4270ab95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoorController
-  openAngle: 90
+  openAngle: -90
   openSpeed: 3
   openDirection: 1
   openSound: {fileID: 0}
@@ -9419,7 +9419,7 @@ Transform:
   m_GameObject: {fileID: 1794426033}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.5399933, y: -0.861, z: -0.013999939}
+  m_LocalPosition: {x: -0.503006, y: -0.8610001, z: -0.013999939}
   m_LocalScale: {x: 1.1277, y: 1.8325976, z: 0.2291}
   m_ConstrainProportionsScale: 0
   m_Children: []

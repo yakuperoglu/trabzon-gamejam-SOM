@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 /// Cam köprü paneli - Squid Game benzeri mekanik
 /// Doğru panel güvenli, yanlış panel oyuncuyu düşürür
-/// Mask1 aktifken doğru paneller parlar
+/// Mask1 aktifken doğru paneller Point Light ile parlar (build'de çalışır)
 /// </summary>
 public class GlassPanel : MonoBehaviour
 {
@@ -20,11 +20,14 @@ public class GlassPanel : MonoBehaviour
     [Header("Parlama Efekti (Mask1)")]
     public Color safeGlowColor = new Color(0.2f, 1f, 0.3f, 1f);
     
-    [Range(0f, 2f)]
-    public float minGlowIntensity = 0.3f;
+    [Range(0.5f, 5f)]
+    public float minLightIntensity = 1f;
     
-    [Range(0f, 5f)]
-    public float maxGlowIntensity = 2f;
+    [Range(1f, 10f)]
+    public float maxLightIntensity = 4f;
+    
+    [Range(1f, 15f)]
+    public float lightRange = 8f;
     
     public float pulseSpeed = 2f;
 
@@ -35,6 +38,9 @@ public class GlassPanel : MonoBehaviour
     private bool isBroken = false;
     private GlassBridgeManager bridgeManager;
     private PlayerHealth playerToKill;
+    
+    // Point Light için
+    private Light glowLight;
 
     void Awake()
     {
@@ -80,39 +86,50 @@ public class GlassPanel : MonoBehaviour
     void StartGlow()
     {
         isGlowing = true;
+        CreateGlowLight();
     }
 
     void StopGlow()
     {
         isGlowing = false;
-        
-        if (panelRenderer != null)
+        DestroyGlowLight();
+    }
+
+    void CreateGlowLight()
+    {
+        if (glowLight != null) return;
+
+        // Yeni ışık objesi oluştur
+        GameObject lightObj = new GameObject("GlassPanelGlowLight");
+        lightObj.transform.SetParent(transform);
+        lightObj.transform.localPosition = Vector3.up * 0.5f; // Panelin biraz üstünde
+
+        // Point Light ekle
+        glowLight = lightObj.AddComponent<Light>();
+        glowLight.type = LightType.Point;
+        glowLight.color = safeGlowColor;
+        glowLight.intensity = maxLightIntensity;
+        glowLight.range = lightRange;
+        glowLight.shadows = LightShadows.None;
+    }
+
+    void DestroyGlowLight()
+    {
+        if (glowLight != null)
         {
-            foreach (var mat in panelRenderer.materials)
-            {
-                if (mat.HasProperty("_EmissionColor"))
-                {
-                    mat.SetColor("_EmissionColor", Color.black);
-                }
-            }
+            Destroy(glowLight.gameObject);
+            glowLight = null;
         }
     }
 
     void UpdateGlowEffect()
     {
-        if (panelRenderer == null) return;
+        if (glowLight == null) return;
 
         float pulse = (Mathf.Sin(Time.time * pulseSpeed) + 1f) * 0.5f;
-        float intensity = Mathf.Lerp(minGlowIntensity, maxGlowIntensity, pulse);
+        float intensity = Mathf.Lerp(minLightIntensity, maxLightIntensity, pulse);
 
-        foreach (var mat in panelRenderer.materials)
-        {
-            if (mat.HasProperty("_EmissionColor"))
-            {
-                mat.EnableKeyword("_EMISSION");
-                mat.SetColor("_EmissionColor", safeGlowColor * intensity);
-            }
-        }
+        glowLight.intensity = intensity;
     }
 
     public void SetBridgeManager(GlassBridgeManager manager)
@@ -182,6 +199,9 @@ public class GlassPanel : MonoBehaviour
         if (isBroken) return;
         isBroken = true;
 
+        // Işığı kapat
+        DestroyGlowLight();
+
         // Collider'ı devre dışı bırak (oyuncu düşsün)
         Invoke(nameof(DisableCollider), breakDelay);
         
@@ -210,5 +230,11 @@ public class GlassPanel : MonoBehaviour
         }
         
         StopGlow();
+    }
+
+    void OnDestroy()
+    {
+        Mask1.OnRevealStateChanged -= OnRevealStateChanged;
+        DestroyGlowLight();
     }
 }

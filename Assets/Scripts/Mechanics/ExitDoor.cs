@@ -14,6 +14,10 @@ public class ExitDoor : MonoBehaviour
     [Tooltip("Veya sahne index'i kullan (-1 ise isim kullanılır)")]
     public int nextSceneIndex = -1;
 
+    [Header("Ses Ayarları")]
+    [Tooltip("Bu kapıdan geçerken çalacak loading sesi (boş bırakılırsa varsayılan kullanılır)")]
+    public AudioClip transitionSound;
+
     [Header("Etkileşim")]
     [Tooltip("Etkileşim mesafesi")]
     public float interactRange = 3f;
@@ -150,17 +154,17 @@ public class ExitDoor : MonoBehaviour
         {
             if (nextSceneIndex >= 0)
             {
-                LoadingScreen.Instance.LoadSceneWithLoading(nextSceneIndex);
+                LoadingScreen.Instance.LoadSceneWithLoading(nextSceneIndex, transitionSound);
             }
             else if (!string.IsNullOrEmpty(nextSceneName))
             {
-                LoadingScreen.Instance.LoadSceneWithLoading(nextSceneName);
+                LoadingScreen.Instance.LoadSceneWithLoading(nextSceneName, transitionSound);
             }
             else
             {
                 // Bir sonraki sahne
                 int currentIndex = SceneManager.GetActiveScene().buildIndex;
-                LoadingScreen.Instance.LoadSceneWithLoading(currentIndex + 1);
+                LoadingScreen.Instance.LoadSceneWithLoading(currentIndex + 1, transitionSound);
             }
         }
         else

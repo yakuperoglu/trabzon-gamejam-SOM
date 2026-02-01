@@ -2279,8 +2279,9 @@ MonoBehaviour:
   breakDelay: 0.3
   deathDelay: 1
   safeGlowColor: {r: 0.2, g: 1, b: 0.3, a: 1}
-  minGlowIntensity: 0.3
-  maxGlowIntensity: 2
+  minLightIntensity: 1
+  maxLightIntensity: 4
+  lightRange: 8
   pulseSpeed: 2
 --- !u!65 &18298464
 BoxCollider:
@@ -7410,8 +7411,9 @@ MonoBehaviour:
   breakDelay: 0.3
   deathDelay: 1
   safeGlowColor: {r: 0.2, g: 1, b: 0.3, a: 1}
-  minGlowIntensity: 0.3
-  maxGlowIntensity: 2
+  minLightIntensity: 1
+  maxLightIntensity: 4
+  lightRange: 8
   pulseSpeed: 2
 --- !u!65 &79703696
 BoxCollider:
@@ -20090,8 +20092,9 @@ MonoBehaviour:
   breakDelay: 0.3
   deathDelay: 1
   safeGlowColor: {r: 0.2, g: 1, b: 0.3, a: 1}
-  minGlowIntensity: 0.3
-  maxGlowIntensity: 2
+  minLightIntensity: 1
+  maxLightIntensity: 4
+  lightRange: 8
   pulseSpeed: 2
 --- !u!65 &161862097
 BoxCollider:
@@ -21609,8 +21612,9 @@ MonoBehaviour:
   breakDelay: 0.3
   deathDelay: 1
   safeGlowColor: {r: 0.2, g: 1, b: 0.3, a: 1}
-  minGlowIntensity: 0.3
-  maxGlowIntensity: 2
+  minLightIntensity: 1
+  maxLightIntensity: 4
+  lightRange: 8
   pulseSpeed: 2
 --- !u!65 &178152413
 BoxCollider:
@@ -30379,9 +30383,14 @@ MonoBehaviour:
   startHidden: 1
   useGlowEffect: 1
   glowColor: {r: 0.3, g: 0.7, b: 1, a: 1}
-  minGlowIntensity: 0.3
-  maxGlowIntensity: 1.5
   pulseSpeed: 2
+  usePointLight: 1
+  minLightIntensity: 0.5
+  maxLightIntensity: 3
+  lightRange: 5
+  useScalePulse: 1
+  minScale: 0.95
+  maxScale: 1.1
 --- !u!1 &267641210
 GameObject:
   m_ObjectHideFlags: 0
@@ -57268,8 +57277,9 @@ MonoBehaviour:
   breakDelay: 0.3
   deathDelay: 1
   safeGlowColor: {r: 0.2, g: 1, b: 0.3, a: 1}
-  minGlowIntensity: 0.3
-  maxGlowIntensity: 2
+  minLightIntensity: 1
+  maxLightIntensity: 4
+  lightRange: 8
   pulseSpeed: 2
 --- !u!65 &452168224
 BoxCollider:
@@ -73393,8 +73403,9 @@ MonoBehaviour:
   breakDelay: 0.3
   deathDelay: 1
   safeGlowColor: {r: 0.2, g: 1, b: 0.3, a: 1}
-  minGlowIntensity: 0.3
-  maxGlowIntensity: 2
+  minLightIntensity: 1
+  maxLightIntensity: 4
+  lightRange: 8
   pulseSpeed: 2
 --- !u!65 &577273255
 BoxCollider:
@@ -92934,8 +92945,9 @@ MonoBehaviour:
   breakDelay: 0.3
   deathDelay: 1
   safeGlowColor: {r: 0.2, g: 1, b: 0.3, a: 1}
-  minGlowIntensity: 0.3
-  maxGlowIntensity: 2
+  minLightIntensity: 1
+  maxLightIntensity: 4
+  lightRange: 8
   pulseSpeed: 2
 --- !u!65 &733788268
 BoxCollider:
@@ -111632,8 +111644,9 @@ MonoBehaviour:
   breakDelay: 0.3
   deathDelay: 1
   safeGlowColor: {r: 0.2, g: 1, b: 0.3, a: 1}
-  minGlowIntensity: 0.3
-  maxGlowIntensity: 2
+  minLightIntensity: 1
+  maxLightIntensity: 4
+  lightRange: 8
   pulseSpeed: 2
 --- !u!65 &821827251
 BoxCollider:
@@ -112089,8 +112102,9 @@ MonoBehaviour:
   breakDelay: 0.3
   deathDelay: 1
   safeGlowColor: {r: 0.2, g: 1, b: 0.3, a: 1}
-  minGlowIntensity: 0.3
-  maxGlowIntensity: 2
+  minLightIntensity: 1
+  maxLightIntensity: 4
+  lightRange: 8
   pulseSpeed: 2
 --- !u!65 &823441926
 BoxCollider:
@@ -113557,8 +113571,9 @@ MonoBehaviour:
   breakDelay: 0.3
   deathDelay: 1
   safeGlowColor: {r: 0.2, g: 1, b: 0.3, a: 1}
-  minGlowIntensity: 0.3
-  maxGlowIntensity: 2
+  minLightIntensity: 1
+  maxLightIntensity: 4
+  lightRange: 8
   pulseSpeed: 2
 --- !u!65 &839071281
 BoxCollider:
@@ -120097,8 +120112,9 @@ MonoBehaviour:
   breakDelay: 0.3
   deathDelay: 1
   safeGlowColor: {r: 0.2, g: 1, b: 0.3, a: 1}
-  minGlowIntensity: 0.3
-  maxGlowIntensity: 2
+  minLightIntensity: 1
+  maxLightIntensity: 4
+  lightRange: 8
   pulseSpeed: 2
 --- !u!65 &900719569
 BoxCollider:
@@ -121944,8 +121960,9 @@ MonoBehaviour:
   breakDelay: 0.3
   deathDelay: 1
   safeGlowColor: {r: 0.2, g: 1, b: 0.3, a: 1}
-  minGlowIntensity: 0.3
-  maxGlowIntensity: 2
+  minLightIntensity: 1
+  maxLightIntensity: 4
+  lightRange: 8
   pulseSpeed: 2
 --- !u!65 &925980008
 BoxCollider:
@@ -131629,8 +131646,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 099efc1362f15ef4ebbb1e5cea13bcd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ExitDoor
-  nextSceneName: Floor 4
+  nextSceneName: Floor 5
   nextSceneIndex: -1
+  transitionSound: {fileID: 0}
   interactRange: 3
   interactPromptUI: {fileID: 1850570564}
   keyRequiredUI: {fileID: 1254071013}
@@ -157630,8 +157648,9 @@ MonoBehaviour:
   breakDelay: 0.3
   deathDelay: 1
   safeGlowColor: {r: 0.2, g: 1, b: 0.3, a: 1}
-  minGlowIntensity: 0.3
-  maxGlowIntensity: 2
+  minLightIntensity: 1
+  maxLightIntensity: 4
+  lightRange: 8
   pulseSpeed: 2
 --- !u!65 &1209210934
 BoxCollider:
@@ -176214,8 +176233,9 @@ MonoBehaviour:
   breakDelay: 0.3
   deathDelay: 1
   safeGlowColor: {r: 0.2, g: 1, b: 0.3, a: 1}
-  minGlowIntensity: 0.3
-  maxGlowIntensity: 2
+  minLightIntensity: 1
+  maxLightIntensity: 4
+  lightRange: 8
   pulseSpeed: 2
 --- !u!65 &1359876529
 BoxCollider:
@@ -179258,39 +179278,39 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1808640360}
+    m_TransformParent: {fileID: 1445321770}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: b1aaaa440e312c84ea06a947e5fec4cd, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: -544.969
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b1aaaa440e312c84ea06a947e5fec4cd, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 839.03577
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b1aaaa440e312c84ea06a947e5fec4cd, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1
+      value: 1066.5242
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b1aaaa440e312c84ea06a947e5fec4cd, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.5196
+      value: 0.08714707
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b1aaaa440e312c84ea06a947e5fec4cd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.003
+      value: 0.14108543
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b1aaaa440e312c84ea06a947e5fec4cd, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.064
+      value: 2.0899918
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b1aaaa440e312c84ea06a947e5fec4cd, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b1aaaa440e312c84ea06a947e5fec4cd, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b1aaaa440e312c84ea06a947e5fec4cd, type: 3}
       propertyPath: m_LocalRotation.y
@@ -179298,7 +179318,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b1aaaa440e312c84ea06a947e5fec4cd, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.7071068
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b1aaaa440e312c84ea06a947e5fec4cd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -180446,8 +180466,9 @@ MonoBehaviour:
   breakDelay: 0.3
   deathDelay: 1
   safeGlowColor: {r: 0.2, g: 1, b: 0.3, a: 1}
-  minGlowIntensity: 0.3
-  maxGlowIntensity: 2
+  minLightIntensity: 1
+  maxLightIntensity: 4
+  lightRange: 8
   pulseSpeed: 2
 --- !u!65 &1403190509
 BoxCollider:
@@ -181579,8 +181600,9 @@ MonoBehaviour:
   breakDelay: 0.3
   deathDelay: 1
   safeGlowColor: {r: 0.2, g: 1, b: 0.3, a: 1}
-  minGlowIntensity: 0.3
-  maxGlowIntensity: 2
+  minLightIntensity: 1
+  maxLightIntensity: 4
+  lightRange: 8
   pulseSpeed: 2
 --- !u!65 &1411840230
 BoxCollider:
@@ -181740,8 +181762,9 @@ MonoBehaviour:
   breakDelay: 0.3
   deathDelay: 1
   safeGlowColor: {r: 0.2, g: 1, b: 0.3, a: 1}
-  minGlowIntensity: 0.3
-  maxGlowIntensity: 2
+  minLightIntensity: 1
+  maxLightIntensity: 4
+  lightRange: 8
   pulseSpeed: 2
 --- !u!65 &1413643952
 BoxCollider:
@@ -184109,6 +184132,163 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.99999994, y: 1, z: 0.99999994}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &1445321764
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1445321770}
+  - component: {fileID: 1445321769}
+  - component: {fileID: 1445321768}
+  - component: {fileID: 1445321767}
+  - component: {fileID: 1445321766}
+  - component: {fileID: 1445321765}
+  m_Layer: 0
+  m_Name: Mask3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1445321765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1445321764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9845e21d723fd994fadc2dd6ba371c4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CollectibleItem
+  itemType: 2
+  lookRange: 5
+  rotationSpeed: 0
+  bobAmplitude: 0
+  bobSpeed: 0
+  pickupPromptUI: {fileID: 1014723400}
+  pickupSound: {fileID: 0}
+  pickupVolume: 1
+--- !u!114 &1445321766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1445321764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b24b4de6a39a6a429ef3489eefd713b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RevealableObject
+  startHidden: 1
+  useGlowEffect: 1
+  glowColor: {r: 0.91595083, g: 0.93962264, b: 0.07623346, a: 1}
+  pulseSpeed: 2
+  usePointLight: 1
+  minLightIntensity: 0.5
+  maxLightIntensity: 3
+  lightRange: 5
+  useScalePulse: 1
+  minScale: 0.95
+  maxScale: 1.1
+--- !u!65 &1445321767
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1445321764}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 10.3508005, y: 8.06414, z: 20.159931}
+  m_Center: {x: 0.316327, y: 0.7695662, z: 1.906914}
+--- !u!23 &1445321768
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1445321764}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1445321769
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1445321764}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1445321770
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1445321764}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.5, y: 0.5, z: 0.5, w: 0.5}
+  m_LocalPosition: {x: 48.8977, y: 2.309, z: -20.179}
+  m_LocalScale: {x: -0.04587421, y: 0.029796109, z: 0.023440631}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1386952383}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1445548740 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100000, guid: abc00000000001925306952476846554, type: 3}
@@ -186286,8 +186466,9 @@ MonoBehaviour:
   breakDelay: 0.3
   deathDelay: 1
   safeGlowColor: {r: 0.2, g: 1, b: 0.3, a: 1}
-  minGlowIntensity: 0.3
-  maxGlowIntensity: 2
+  minLightIntensity: 1
+  maxLightIntensity: 4
+  lightRange: 8
   pulseSpeed: 2
 --- !u!65 &1461321972
 BoxCollider:
@@ -195115,8 +195296,9 @@ MonoBehaviour:
   breakDelay: 0.3
   deathDelay: 1
   safeGlowColor: {r: 0.2, g: 1, b: 0.3, a: 1}
-  minGlowIntensity: 0.3
-  maxGlowIntensity: 2
+  minLightIntensity: 1
+  maxLightIntensity: 4
+  lightRange: 8
   pulseSpeed: 2
 --- !u!65 &1552399873
 BoxCollider:
@@ -208148,6 +208330,10 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
+    - target: {fileID: 1030972628, guid: abc00000000008785755365636230341, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.03
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -208556,8 +208742,9 @@ MonoBehaviour:
   breakDelay: 0.3
   deathDelay: 1
   safeGlowColor: {r: 0.2, g: 1, b: 0.3, a: 1}
-  minGlowIntensity: 0.3
-  maxGlowIntensity: 2
+  minLightIntensity: 1
+  maxLightIntensity: 4
+  lightRange: 8
   pulseSpeed: 2
 --- !u!65 &1637904110
 BoxCollider:
@@ -210774,8 +210961,9 @@ MonoBehaviour:
   breakDelay: 0.3
   deathDelay: 1
   safeGlowColor: {r: 0.2, g: 1, b: 0.3, a: 1}
-  minGlowIntensity: 0.3
-  maxGlowIntensity: 2
+  minLightIntensity: 1
+  maxLightIntensity: 4
+  lightRange: 8
   pulseSpeed: 2
 --- !u!65 &1661656445
 BoxCollider:
@@ -231697,7 +231885,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Mask3
   lightColor: {r: 1, g: 1, b: 1, a: 1}
-  lightIntensity: 183
+  lightIntensity: 241
   lightRange: 102.6
   spotAngle: 85
   innerSpotAngle: 34
@@ -235447,158 +235635,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.9999999, y: 0.00000008742274, z: 2.0000002}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!1 &1808640354
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1808640360}
-  - component: {fileID: 1808640359}
-  - component: {fileID: 1808640358}
-  - component: {fileID: 1808640361}
-  - component: {fileID: 1808640363}
-  - component: {fileID: 1808640362}
-  m_Layer: 0
-  m_Name: Mask 3
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!23 &1808640358
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1808640354}
-  m_Enabled: 0
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &1808640359
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1808640354}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &1808640360
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1808640354}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 61.711, y: 0.758, z: 54.9}
-  m_LocalScale: {x: 25, y: 25, z: 25}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1386952383}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1808640361
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1808640354}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9845e21d723fd994fadc2dd6ba371c4b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CollectibleItem
-  itemType: 2
-  lookRange: 5
-  rotationSpeed: 0
-  bobAmplitude: 0
-  bobSpeed: 0
-  pickupPromptUI: {fileID: 1014723400}
-  pickupSound: {fileID: 0}
-  pickupVolume: 1
---- !u!65 &1808640362
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1808640354}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.008114128, y: 0.01971618, z: 0.022897981}
-  m_Center: {x: -0.51880896, y: 3.004957, z: 0.064920366}
---- !u!114 &1808640363
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1808640354}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b24b4de6a39a6a429ef3489eefd713b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RevealableObject
-  startHidden: 1
-  useGlowEffect: 1
-  glowColor: {r: 0.3, g: 0.7, b: 1, a: 1}
-  minGlowIntensity: 0.3
-  maxGlowIntensity: 1.5
-  pulseSpeed: 2
 --- !u!1 &1809376718
 GameObject:
   m_ObjectHideFlags: 0
@@ -243201,8 +243237,9 @@ MonoBehaviour:
   breakDelay: 0.3
   deathDelay: 1
   safeGlowColor: {r: 0.2, g: 1, b: 0.3, a: 1}
-  minGlowIntensity: 0.3
-  maxGlowIntensity: 2
+  minLightIntensity: 1
+  maxLightIntensity: 4
+  lightRange: 8
   pulseSpeed: 2
 --- !u!65 &1883359750
 BoxCollider:
@@ -253118,6 +253155,52 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.9999999, y: 0.00000008742274, z: 2.0000002}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &1935532914
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1935532916}
+  - component: {fileID: 1935532915}
+  m_Layer: 0
+  m_Name: Loading Screen
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1935532915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1935532914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35c9e35d20675c44695c3664b9738dc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LoadingScreen
+  loadingPanel: {fileID: 0}
+  minimumLoadingTime: 2
+--- !u!4 &1935532916
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1935532914}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 47.56264, y: 1.43894, z: 3.35517}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1935566395 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100000, guid: abc00000000001925306952476846554, type: 3}
@@ -262075,8 +262158,9 @@ MonoBehaviour:
   breakDelay: 0.3
   deathDelay: 1
   safeGlowColor: {r: 0.2, g: 1, b: 0.3, a: 1}
-  minGlowIntensity: 0.3
-  maxGlowIntensity: 2
+  minLightIntensity: 1
+  maxLightIntensity: 4
+  lightRange: 8
   pulseSpeed: 2
 --- !u!65 &1970282242
 BoxCollider:
@@ -263271,8 +263355,9 @@ MonoBehaviour:
   breakDelay: 0.3
   deathDelay: 1
   safeGlowColor: {r: 0.2, g: 1, b: 0.3, a: 1}
-  minGlowIntensity: 0.3
-  maxGlowIntensity: 2
+  minLightIntensity: 1
+  maxLightIntensity: 4
+  lightRange: 8
   pulseSpeed: 2
 --- !u!65 &1979886030
 BoxCollider:
@@ -289556,6 +289641,7 @@ SceneRoots:
   - {fileID: 385635268}
   - {fileID: 1263448774}
   - {fileID: 301976639}
+  - {fileID: 1935532916}
   - {fileID: 1713081751}
   - {fileID: 1590720511}
   - {fileID: 1997909978}
@@ -289579,7 +289665,7 @@ SceneRoots:
   - {fileID: 1913952061}
   - {fileID: 1635565944}
   - {fileID: 214481664}
-  - {fileID: 1808640360}
+  - {fileID: 1445321770}
   - {fileID: 723477231}
   - {fileID: 1533931445}
   - {fileID: 1858391443}

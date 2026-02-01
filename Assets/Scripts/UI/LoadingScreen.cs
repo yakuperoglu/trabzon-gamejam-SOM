@@ -14,18 +14,13 @@ public class LoadingScreen : MonoBehaviour
     [Tooltip("Loading ekranı paneli")]
     public GameObject loadingPanel;
 
-    [Header("Ses")]
-    [Tooltip("Loading sırasında çalacak ses")]
-    public AudioClip loadingAudio;
-    
-    [Tooltip("Ses kaynağı (yoksa otomatik oluşturulur)")]
-    public AudioSource audioSource;
-
     [Header("Timing")]
     [Tooltip("Minimum loading süresi (saniye)")]
     public float minimumLoadingTime = 2f;
 
     // Private
+    private AudioSource audioSource;
+    private AudioClip currentAudio; // ExitDoor'dan gelen ses
     private string targetSceneName;
     private int targetSceneIndex = -1;
     private bool isLoading = false;
@@ -70,10 +65,20 @@ public class LoadingScreen : MonoBehaviour
     /// </summary>
     public void LoadSceneWithLoading(string sceneName)
     {
+        LoadSceneWithLoading(sceneName, null);
+    }
+
+    /// <summary>
+    /// Loading ekranını göster ve sonraki sahneye geç (özel ses ile)
+    /// </summary>
+    public void LoadSceneWithLoading(string sceneName, AudioClip customAudio)
+    {
         if (isLoading) return;
         
         targetSceneName = sceneName;
         targetSceneIndex = -1;
+        currentAudio = customAudio; // Sadece ExitDoor'dan gelen ses
+        
         StartLoading();
     }
 
@@ -82,10 +87,20 @@ public class LoadingScreen : MonoBehaviour
     /// </summary>
     public void LoadSceneWithLoading(int sceneIndex)
     {
+        LoadSceneWithLoading(sceneIndex, null);
+    }
+
+    /// <summary>
+    /// Loading ekranını göster ve sonraki sahneye geç (index ve özel ses ile)
+    /// </summary>
+    public void LoadSceneWithLoading(int sceneIndex, AudioClip customAudio)
+    {
         if (isLoading) return;
         
         targetSceneIndex = sceneIndex;
         targetSceneName = null;
+        currentAudio = customAudio; // Sadece ExitDoor'dan gelen ses
+        
         StartLoading();
     }
 
@@ -112,10 +127,10 @@ public class LoadingScreen : MonoBehaviour
         // NOT: TimeScale ExitDoor tarafından 0 yapılmış olabilir
         // Biz değiştirmiyoruz - WaitForSecondsRealtime kullanacağız
 
-        // Ses çal (varsa)
-        if (loadingAudio != null && audioSource != null)
+        // Ses çal (sadece ExitDoor'dan ses geldiyse)
+        if (currentAudio != null && audioSource != null)
         {
-            audioSource.clip = loadingAudio;
+            audioSource.clip = currentAudio;
             audioSource.Play();
         }
         
@@ -188,6 +203,7 @@ public class LoadingScreen : MonoBehaviour
         if (!isLoading) return;
         
         isLoading = false;
+        currentAudio = null; // Sesi temizle - bir sonraki geçişte eski ses çalmasın
 
         // Panel gizle - yeni sahne tamamen yüklendikten sonra
         if (loadingPanel != null)

@@ -1934,6 +1934,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1323128969}
   - component: {fileID: 1323128970}
+  - component: {fileID: 1323128971}
   m_Layer: 5
   m_Name: empty
   m_TagString: Untagged
@@ -1979,6 +1980,23 @@ MonoBehaviour:
   playAgainButton: {fileID: 2029091239}
   quitButton: {fileID: 595542565}
   mainMenuSceneName: MENU
+  startSceneIndex: 1
+--- !u!114 &1323128971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1323128968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83788f769edd08c4cadafbb7f0823537, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameOverPanel
+  mainMenuButton: {fileID: 789633983}
+  playAgainButton: {fileID: 2029091239}
+  quitButton: {fileID: 595542565}
+  mainMenuSceneIndex: 0
   startSceneIndex: 1
 --- !u!1 &1578248174
 GameObject:

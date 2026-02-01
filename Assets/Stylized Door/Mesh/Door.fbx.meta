@@ -1,33 +1,28 @@
 fileFormatVersion: 2
-guid: e49133f50a2a7604782a1ba6b161f219
-AssetOrigin:
-  serializedVersion: 1
-  productId: 97905
-  packageName: Mountain Terrain, Rocks and Tree
-  packageVersion: 3.0
-  assetPath: Assets/Mountain Terrain rocks and tree/3d model/Terrain/mountain_terrain_01.fbx
-  uploadId: 658244
+guid: 2b5e9b3c6d401bb46be72a594b95f8b9
 ModelImporter:
-  serializedVersion: 24200
+  serializedVersion: 22200
   internalIDToNameTable: []
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: TT_checker_4096x4096_UV_GRID
-    second: {fileID: 2100000, guid: 42f8049b0aa7e56428eacc14875ba421, type: 2}
+      name: m_door
+    second: {fileID: 2100000, guid: c75dd344674859b4c87a8f21a6364433, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
     materialSearch: 1
-    materialLocation: 0
+    materialLocation: 1
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
-    removeConstantScaleCurves: 1
+    removeConstantScaleCurves: 0
     motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
@@ -68,9 +63,6 @@ ModelImporter:
     maxBonesPerVertex: 4
     minBoneWeight: 0.001
     optimizeBones: 1
-    generateMeshLods: 0
-    meshLodGenerationFlags: 0
-    maximumMeshLod: -1
     meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
@@ -114,9 +106,16 @@ ModelImporter:
   humanoidOversampling: 1
   avatarSetup: 0
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
-  importBlendShapeDeformPercent: 0
+  importBlendShapeDeformPercent: 1
   remapMaterialsIfMaterialImportModeIsNone: 0
   additionalBone: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 345072
+  packageName: Stylized door
+  packageVersion: 1.0
+  assetPath: Assets/Stylized Door/Mesh/Door.fbx
+  uploadId: 820394

@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+using System.Collections;
 
 /// <summary>
 /// FPS Kamera Kontrolü - Titreme olmadan smooth takip
@@ -40,14 +42,51 @@ public class CameraController : MonoBehaviour
     private float currentYRotation;
     private float xRotationVelocity;
     private float yRotationVelocity;
+    private bool isInitialized = false;
 
     // Input
     private PlayerInput playerInput;
     private InputAction lookAction;
+    
+    // PauseMenu referansı (cache)
+    private PauseMenu pauseMenuCache;
+
+    void OnEnable()
+    {
+        // Sahne yüklendiğinde callback ekle
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDisable()
+    {
+        // Callback'i kaldır
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Yeni sahne yüklendiğinde target ve input'u yeniden bul
+        StartCoroutine(RefreshTargetDelayed());
+    }
+
+    IEnumerator RefreshTargetDelayed()
+    {
+        // Bir frame bekle - yeni sahne objelerinin oluşmasını bekle
+        yield return null;
+        RefreshTarget();
+    }
 
     void Start()
     {
-        // Target yoksa Player tag'li objeyi bul
+        RefreshTarget();
+    }
+
+    /// <summary>
+    /// Target ve input referanslarını yeniden bul ve başlat
+    /// </summary>
+    void RefreshTarget()
+    {
+        // Target yoksa veya destroy edilmişse Player tag'li objeyi bul
         if (target == null)
         {
             GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -58,6 +97,7 @@ public class CameraController : MonoBehaviour
             else
             {
                 Debug.LogError("CameraController: Target bulunamadı! Lütfen Player'ı atayın veya 'Player' tag'i ekleyin.");
+                return;
             }
         }
 
@@ -71,13 +111,17 @@ public class CameraController : MonoBehaviour
             }
         }
 
-        // Başlangıç rotasyonları
-        if (target != null)
+        // Başlangıç rotasyonları (sadece ilk kez)
+        if (!isInitialized && target != null)
         {
             yRotation = target.eulerAngles.y;
+            currentXRotation = xRotation;
+            currentYRotation = yRotation;
+            isInitialized = true;
         }
-        currentXRotation = xRotation;
-        currentYRotation = yRotation;
+
+        // PauseMenu referansını cache'le
+        pauseMenuCache = FindAnyObjectByType<PauseMenu>();
 
         // Mouse kilitle
         Cursor.lockState = CursorLockMode.Locked;
@@ -112,8 +156,11 @@ public class CameraController : MonoBehaviour
 
     void HandleRotation()
     {
-        // Time.deltaTime == 0 olduğunda (pause) atla
-        if (Time.deltaTime <= 0) return;
+        // PauseMenu aktifse kamera hareketi durdur (Time.timeScale yerine)
+        if (pauseMenuCache != null && pauseMenuCache.IsPaused)
+        {
+            return;
+        }
 
         // Aşırı büyük değerleri filtrele (lag spike protection)
         Vector2 clampedInput = lookInput;
@@ -157,8 +204,12 @@ public class CameraController : MonoBehaviour
         // Hedef pozisyon
         Vector3 targetPosition = target.position + offset;
 
-        // Smooth pozisyon takibi
-        transform.position = Vector3.Lerp(transform.position, targetPosition, followSpeed * Time.deltaTime);
+        // Smooth pozisyon takibi (Time.unscaledDeltaTime ile - sahne geçişlerinde çalışır)
+        float deltaTime = Time.unscaledDeltaTime;
+        if (deltaTime > 0)
+        {
+            transform.position = Vector3.Lerp(transform.position, targetPosition, followSpeed * deltaTime);
+        }
     }
 
     void OnApplicationFocus(bool hasFocus)

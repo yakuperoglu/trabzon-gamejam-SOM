@@ -14,20 +14,20 @@ public class Mask3 : MaskBase
     public Color lightColor = Color.white;
     
     [Tooltip("Işık şiddeti")]
-    [Range(0.1f, 10f)]
-    public float lightIntensity = 4f;
+    [Range(0.1f, 500f)]
+    public float lightIntensity = 200f;
     
     [Tooltip("Işık menzili")]
-    [Range(1f, 100f)]
-    public float lightRange = 60f;
+    [Range(1f, 150f)]
+    public float lightRange = 100f;
     
     [Tooltip("Spot açısı")]
     [Range(1f, 179f)]
-    public float spotAngle = 60f;
+    public float spotAngle = 75f;
     
     [Tooltip("İç spot açısı (yumuşak kenar için)")]
     [Range(0f, 100f)]
-    public float innerSpotAngle = 30f;
+    public float innerSpotAngle = 45f;
 
     [Header("Gölge Ayarları")]
     [Tooltip("Gölge oluştursun mu?")]

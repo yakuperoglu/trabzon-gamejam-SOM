@@ -56,6 +56,10 @@ public class PauseMenu : MonoBehaviour
         }
 
         IsPaused = false;
+        
+        // Sahne başladığında Time.timeScale'in 1 olduğundan emin ol
+        Time.timeScale = 1f;
+        Debug.Log("PauseMenu: Start() - Time.timeScale = 1f yapıldı");
     }
 
     void SetupSliders()

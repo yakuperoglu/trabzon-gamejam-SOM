@@ -88,14 +88,18 @@ public class RevealableObject : MonoBehaviour
         {
             if (renderer != null)
             {
-                foreach (var mat in renderer.materials)
-                {
-                    if (mat.HasProperty("_EmissionColor"))
-                    {
-                        mat.EnableKeyword("_EMISSION");
-                        mat.SetColor("_EmissionColor", glowColor * intensity);
-                    }
-                }
+                // MaterialPropertyBlock kullan - build'de düzgün çalışır
+                MaterialPropertyBlock propBlock = new MaterialPropertyBlock();
+                renderer.GetPropertyBlock(propBlock);
+                
+                // Emission rengi ayarla (HDR için intensity ile çarp)
+                Color emissionColor = glowColor * intensity;
+                propBlock.SetColor("_EmissionColor", emissionColor);
+                
+                renderer.SetPropertyBlock(propBlock);
+                
+                // Global Illumination için emission'ı güncelle
+                DynamicGI.SetEmissive(renderer, emissionColor);
             }
         }
     }
@@ -116,12 +120,22 @@ public class RevealableObject : MonoBehaviour
     {
         isRevealed = true;
 
-        // Renderer'ları göster
+        // Renderer'ları göster ve emission'ı aktifleştir
         foreach (var renderer in renderers)
         {
             if (renderer != null)
             {
                 renderer.enabled = true;
+                
+                // Emission keyword'ü aktifleştir (build için gerekli)
+                foreach (var mat in renderer.materials)
+                {
+                    if (mat.HasProperty("_EmissionColor"))
+                    {
+                        mat.EnableKeyword("_EMISSION");
+                        mat.globalIlluminationFlags = MaterialGlobalIlluminationFlags.RealtimeEmissive;
+                    }
+                }
             }
         }
 
